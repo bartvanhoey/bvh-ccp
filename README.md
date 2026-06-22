@@ -9,6 +9,12 @@ A step-by-step guide to publishing Claude Code plugins from your own GitHub repo
     cd bvh-ccps
 ```
 
+This repo tracks a `git pre-push` hook (in `.githooks/`) that runs `git pull` before every push and aborts if new commits come in, so you never push against a stale branch. Claude Code configures it for you automatically (via a `SessionStart` hook) the first time you open this repo. If you're using plain `git` without Claude Code, point git at it once after cloning:
+
+```bash
+    git config core.hooksPath .githooks
+```
+
 ## 1. Create the Marketplace Plugin Structure
 
 Below is an example of how to structure your repository. The [`marketplace.json`](.claude-plugin/marketplace.json) file is required and should be placed in the `.claude-plugin` directory at the root of your repository.
