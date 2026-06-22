@@ -2,6 +2,8 @@
 name: commit-message
 description: Review staged changes and create a commit message. Use /commit-message [skip-review] to skip the code review.
 allowed-tools: Bash(git status:*), Bash(git diff --staged:*), Bash(git commit:*), Bash(git log:*)
+argument-help: |
+  [skip-review] (optional) — if provided, skip the code review step and go straight to commit message generation.
 ---
 
 ## Invocation
