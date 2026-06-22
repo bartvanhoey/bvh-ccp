@@ -1,0 +1,22 @@
+#!/bin/sh
+# Pulls the latest changes for the current remote before allowing a push.
+# If the pull brings in new commits, the push is aborted so it can be
+# re-run against the now up-to-date branch.
+
+remote="$1"
+
+before=$(git rev-parse HEAD)
+
+if ! git pull "$remote"; then
+    echo "pre-push: 'git pull' failed. Resolve the issue, then push again." >&2
+    exit 1
+fi
+
+after=$(git rev-parse HEAD)
+
+if [ "$before" != "$after" ]; then
+    echo "pre-push: pulled new commits from '$remote'. Re-run 'git push' to push the updated branch." >&2
+    exit 1
+fi
+
+exit 0

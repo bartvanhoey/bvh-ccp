@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/git-push-pull-check.sh",
+            "statusMessage": "Checking for upstream changes before push..."
+          }
+        ]
+      }
+    ]
+  }
+}
