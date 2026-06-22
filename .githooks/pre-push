@@ -1,7 +1,10 @@
 #!/bin/sh
 # Pulls the latest changes for the current remote before allowing a push.
-# If the pull brings in new commits, the push is aborted so it can be
-# re-run against the now up-to-date branch.
+# Git resolves what to push *before* invoking this hook and won't re-check
+# after it returns, so a clean merge here can't make the in-flight push
+# succeed - it would still get rejected by the remote with a confusing
+# generic error. Instead, always abort after a pull changes the branch (or
+# fails outright) and ask for a clean re-run, which picks up the merge.
 
 remote="$1"
 
