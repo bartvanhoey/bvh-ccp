@@ -1,0 +1,14 @@
+{
+  "name": "bvh-ccps",
+  "owner": {
+    "name": "bartvanhoey"
+  },
+  "description": "Free Claude Code Skills, Agents, Hooks and more",
+  "plugins": [
+    {
+      "name": "bvh-ccp",
+      "source": "./plugins/bvh-ccp",
+      "description": "A Free Claude Code Plugin with many Skills, Agents, Hooks and more"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+name: Bump plugin version
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "plugins/bvh-ccp/**"
+
+permissions:
+  contents: write
+
+jobs:
+  bump-version:
+    if: "!contains(github.event.head_commit.message, '[skip version]')"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Bump patch version
+        id: bump
+        run: |
+          FILE=plugins/bvh-ccp/.claude-plugin/plugin.json
+          VERSION=$(jq -r .version "$FILE")
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+          NEW_VERSION="$MAJOR.$MINOR.$((PATCH + 1))"
+          jq --arg v "$NEW_VERSION" '.version = $v' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
+          echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add plugins/bvh-ccp/.claude-plugin/plugin.json
+          git commit -m "chore: bump plugin version to ${{ steps.bump.outputs.new_version }} [skip version]"
+          git push
